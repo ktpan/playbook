@@ -1,0 +1,15 @@
+---
+- hosts: webservers
+  remote_user: ec2-user
+  become: yes
+  become_user: root
+  tasks:
+  - name: show how variables can be registered
+    shell: pwd
+    register: pwd_output
+  - name: what's in the pwd output
+    debug: var=pwd_output
+  - name: the return code
+    debug: msg="Return code was {{ pwd_output['rc'] }}"
+  - name: the actual path
+    debug: msg="Here is the current path {{ pwd_output['stdout'] }}"

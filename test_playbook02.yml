@@ -1,0 +1,10 @@
+---
+- hosts: webservers
+  remote_user: ec2-user
+  become: yes
+  become_user: root  
+  tasks:
+  - name: ensure apache is at the latest version
+    yum: pkg=httpd state=latest
+  - name: write the apache config file
+    template: src=/srv/httpd.j2 dest=/etc/httpd.conf

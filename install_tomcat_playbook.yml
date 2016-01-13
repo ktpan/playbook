@@ -1,0 +1,20 @@
+---
+- hosts: webservers
+  remote_user: ec2-user
+  #become: yes
+  #become_user: root
+  vars:
+     http_port: 8088
+     max_clients: 200
+     tomcat_name: 
+     download_folder: /home/ec2-user/download
+     tomcat_archive: apache-tomcat-8.0.28-src.tar.gz
+     tomcat_folder: /home/ec2-user/tomcat
+     tomcat_alias: apache_tomcat_8
+  tasks:
+     #- name: download tomcat
+     #  get_url: url=http://apache.cs.utah.edu/tomcat/tomcat-8/v8.0.28/src/{{ tomcat_archive }}
+     #           dest={{ tomcat_folder }}
+     - name: extract tomcat archive
+       command: "tar -zxvf {{ tomcat_folder }}/{{ tomcat_archive }}
+                creates={{ tomcat_folder }}"

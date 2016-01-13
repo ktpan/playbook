@@ -1,0 +1,11 @@
+---
+- hosts: webservers
+  remote_user: ec2-user
+  become: yes
+  become_user: root
+  tasks:
+  - name: trigger an error msg and ignore it
+    shell: ls /whatever/dirs
+    ignore_errors: true
+  - name: simple command to debug
+    debug: msg="Can you see this?"

@@ -1,0 +1,33 @@
+---
+- hosts: webservers
+  remote_user: ec2-user
+  become: yes
+  become_user: root
+  vars:
+     java_name: jdk1.8.0_65_tmp
+     download_folder: /usr/src
+     java_archive: jdk-8u65-linux-x64.tar.gz
+     java_folder: /usr/lib/jvm
+     java_alias: java-8-oracle
+  tasks:
+    # - name: download java
+    #   command: 'wget --no-check-certificate --no-cookies --header
+    #            "Cookie: oraclelicense=accept-securebackup-cookie" 
+    #            http://download.oracle.com/otn-pub/java/jdk/8u65-b17/{{ java_archive }}'
+    # - name: extract java archive
+    #   command: "tar -xzf {{ java_archive }} -C {{ download_folder }}
+    #            creates={{ download_folder }}/{{ java_name }}"
+    # - name: change ownership
+    #   file: "state=directory path={{ download_folder }}/{{ java_name }}
+    #        owner=root group=root recurse=yes"
+    # - name: create java folder
+    #   file: "state=directory path={{ java_folder }}"
+    # - name: move java to target folder
+    #   command: "mv {{ download_folder }}/{{ java_name }} {{ java_folder }}
+    #            creates={{ java_folder }}//{{ java_name }}"
+    # - name: create symlink for easier update
+    #   file: "state=link force=yes src={{ download_folder }}/{{ java_name }}
+    #         dest={{ java_folder }}/{{ java_name }}"
+     - name: make java available for system
+       command: 'update-alternatives --install "/usr/bin/java" "java"
+                "{{ java_folder }}/{{ java_alias }}/bin/java" 1'

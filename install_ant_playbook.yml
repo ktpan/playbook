@@ -1,0 +1,23 @@
+---
+- hosts: webservers
+  remote_user: ec2-user
+  #become: yes
+  #become_user: root
+  vars:
+     ant_name: apache-ant-1.9.5
+     download_folder: /home/ec2-user
+     ant_archive: apache-ant-1.9.5-bin.tar.gz
+     ant_folder: /home/ec2-user/ant/bin
+     ant_alias: apache_tomcat_8
+  tasks:
+     #- name: download ant 
+     #  command: 'wget https://www.apache.org/dist/ant/binaries/{{ ant_archive }}'
+     #- name: extract ant archive
+     #  command: "tar -zxvf {{ ant_archive }} -C {{ download_folder }}"
+     #- name: move ant
+     #  command: "mv {{ ant_name }} ant"
+     - name: adding ant_home path into the bashrc file
+       lineinfile: dest=/home/ec2-user/.bashrc line='export ANT_HOME={{ ant_folder }}'
+                   insertafter='EOF' regexp='export PATH=\$PATH:{{ ant_folder }}' state=present
+     #- name: execute ant
+     #  command: 'ant -f fetch.xml -Ddest=system'

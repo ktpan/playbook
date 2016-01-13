@@ -1,0 +1,13 @@
+---
+- hosts: webservers
+  remote_user: ec2-user
+  become: yes
+  become_user: root
+  vars:
+    package_nginx: nginx
+  tasks:
+  - name: install nginx
+    yum: state=present name={{ package_nginx }}
+  handlers:
+  - name: start the nginx service
+    service: state=started name=nginx
